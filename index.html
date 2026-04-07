@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="et">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tallinna Keeltekool — Keeleõpe Tallinnas</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --navy: #0D1B2A;
+    --navy-mid: #162436;
+    --navy-light: #1E3048;
+    --gold: #C9963A;
+    --gold-light: #E8B86D;
+    --gold-pale: #F5E6C8;
+    --cream: #FAFAF7;
+    --text: #0D1B2A;
+    --muted: #5A6B7A;
+    --border: rgba(201,150,58,0.2);
+    --white: #FFFFFF;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Outfit', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1rem 4rem;
+    background: rgba(250,250,247,0.95);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .logo {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 1.15rem;
+    color: var(--navy);
+    letter-spacing: -0.01em;
+    display: flex; align-items: center; gap: 0.6rem;
+  }
+
+  .logo-dot { width: 8px; height: 8px; background: var(--gold); border-radius: 50%; }
+
+  nav ul { display: flex; gap: 2rem; list-style: none; }
+  nav ul a { text-decoration: none; font-size: 0.85rem; font-weight: 500; color: var(--muted); letter-spacing: 0.02em; transition: color 0.2s; }
+  nav ul a:hover { color: var(--gold); }
+
+  .nav-btn {
+    background: var(--navy);
+    color: var(--cream);
+    padding: 0.55rem 1.4rem;
+    border-radius: 2rem;
+    font-size: 0.83rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+  .nav-btn:hover { background: var(--gold); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 8rem 4rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: var(--navy);
+    z-index: 0;
+  }
+
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(rgba(201,150,58,0.06) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(201,150,58,0.06) 1px, transparent 1px);
+    background-size: 60px 60px;
+    z-index: 1;
+  }
+
+  .hero-glow {
+    position: absolute;
+    top: -20%; right: -5%;
+    width: 50vw; height: 70vh;
+    background: radial-gradient(ellipse, rgba(201,150,58,0.12) 0%, transparent 65%);
+    z-index: 1;
+  }
+
+  .hero-content {
+    position: relative; z-index: 2;
+    max-width: 680px;
+  }
+
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: rgba(201,150,58,0.15);
+    border: 1px solid rgba(201,150,58,0.3);
+    color: var(--gold-light);
+    font-size: 0.78rem;
+    font-weight: 500;
+    padding: 0.4rem 1rem;
+    border-radius: 2rem;
+    margin-bottom: 1.75rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .hero h1 {
+    font-family: 'Libre Baskerville', serif;
+    font-size: clamp(2.6rem, 5vw, 4rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--cream);
+    margin-bottom: 1.5rem;
+  }
+
+  .hero h1 em { font-style: italic; color: var(--gold-light); }
+
+  .hero p {
+    font-size: 1.05rem;
+    color: rgba(250,250,247,0.65);
+    line-height: 1.75;
+    font-weight: 300;
+    max-width: 520px;
+    margin-bottom: 2.5rem;
+  }
+
+  .hero-btns { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+
+  .btn-gold {
+    background: var(--gold);
+    color: var(--navy);
+    padding: 0.9rem 2rem;
+    border-radius: 3rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.25s;
+    display: inline-block;
+  }
+  .btn-gold:hover { background: var(--gold-light); transform: translateY(-1px); }
+
+  .btn-outline {
+    border: 1.5px solid rgba(250,250,247,0.3);
+    color: var(--cream);
+    padding: 0.9rem 2rem;
+    border-radius: 3rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.25s;
+    display: inline-block;
+  }
+  .btn-outline:hover { border-color: var(--gold); color: var(--gold-light); }
+
+  .hero-langs {
+    position: absolute; right: 4rem; top: 50%; transform: translateY(-50%);
+    z-index: 2;
+    display: flex; flex-direction: column; gap: 0.75rem;
+  }
+
+  .lang-pill {
+    background: rgba(250,250,247,0.06);
+    border: 1px solid rgba(201,150,58,0.2);
+    color: rgba(250,250,247,0.7);
+    padding: 0.5rem 1.2rem;
+    border-radius: 2rem;
+    font-size: 0.82rem;
+    font-weight: 500;
+    transition: all 0.2s;
+    cursor: default;
+    white-space: nowrap;
+  }
+  .lang-pill:hover { background: rgba(201,150,58,0.12); color: var(--gold-light); border-color: rgba(201,150,58,0.4); }
+  .lang-pill.active { background: rgba(201,150,58,0.18); color: var(--gold-light); border-color: var(--gold); }
+
+  /* STATS */
+  .stats {
+    background: var(--navy-mid);
+    padding: 2.5rem 4rem;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background-color: rgba(201,150,58,0.15);
+    border-top: 1px solid rgba(201,150,58,0.15);
+  }
+
+  .stat {
+    background: var(--navy-mid);
+    padding: 2rem;
+    text-align: center;
+  }
+
+  .stat-num {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 2.2rem;
+    color: var(--gold-light);
+    line-height: 1;
+    margin-bottom: 0.3rem;
+  }
+  .stat-label { font-size: 0.8rem; color: rgba(250,250,247,0.5); letter-spacing: 0.03em; }
+
+  /* LANGUAGES */
+  .languages { padding: 6rem 4rem; background: var(--cream); }
+
+  .section-label {
+    font-size: 0.75rem; font-weight: 600; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--gold); margin-bottom: 0.75rem;
+  }
+
+  h2 {
+    font-family: 'Libre Baskerville', serif;
+    font-size: clamp(1.8rem, 3vw, 2.6rem);
+    letter-spacing: -0.02em; line-height: 1.15;
+    color: var(--navy); margin-bottom: 0.75rem;
+  }
+
+  .section-sub {
+    color: var(--muted); font-size: 1rem; font-weight: 300;
+    max-width: 480px; line-height: 1.7; margin-bottom: 3rem;
+  }
+
+  .lang-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+  }
+
+  .lang-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    transition: all 0.3s;
+    cursor: default;
+  }
+  .lang-card:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(13,27,42,0.08); border-color: rgba(201,150,58,0.4); }
+
+  .lang-flag { font-size: 1.8rem; margin-bottom: 0.75rem; }
+  .lang-name { font-family: 'Libre Baskerville', serif; font-size: 1.05rem; margin-bottom: 0.3rem; color: var(--navy); }
+  .lang-levels { font-size: 0.78rem; color: var(--muted); font-weight: 400; }
+
+  /* COURSES */
+  .courses { padding: 6rem 4rem; background: var(--navy); }
+  .courses h2 { color: var(--cream); }
+  .courses .section-sub { color: rgba(250,250,247,0.55); }
+
+  .course-tabs {
+    display: flex; gap: 0.5rem; flex-wrap: wrap;
+    margin-bottom: 2.5rem;
+  }
+
+  .tab {
+    background: rgba(250,250,247,0.06);
+    border: 1px solid rgba(201,150,58,0.2);
+    color: rgba(250,250,247,0.6);
+    padding: 0.5rem 1.2rem;
+    border-radius: 2rem;
+    font-size: 0.82rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .tab:hover, .tab.active { background: rgba(201,150,58,0.15); color: var(--gold-light); border-color: rgba(201,150,58,0.5); }
+
+  .course-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+
+  .course-card {
+    background: var(--navy-light);
+    border: 1px solid rgba(201,150,58,0.15);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    transition: all 0.3s;
+  }
+  .course-card:hover { border-color: rgba(201,150,58,0.35); transform: translateY(-2px); }
+
+  .course-level {
+    display: inline-block;
+    background: rgba(201,150,58,0.15);
+    color: var(--gold-light);
+    font-size: 0.72rem; font-weight: 600;
+    padding: 0.25rem 0.75rem; border-radius: 1rem;
+    letter-spacing: 0.05em; text-transform: uppercase;
+    margin-bottom: 0.75rem;
+  }
+
+  .course-title { font-size: 0.95rem; font-weight: 500; color: var(--cream); margin-bottom: 0.5rem; line-height: 1.4; }
+  .course-meta { font-size: 0.78rem; color: rgba(250,250,247,0.45); margin-bottom: 0.25rem; }
+  .course-price { font-family: 'Libre Baskerville', serif; font-size: 1.3rem; color: var(--gold-light); margin-top: 0.75rem; }
+
+  /* PRICING */
+  .pricing { padding: 6rem 4rem; background: var(--cream); }
+
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+
+  .price-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 1.25rem;
+    padding: 2.5rem;
+    position: relative;
+    transition: all 0.3s;
+  }
+
+  .price-card.featured {
+    background: var(--navy);
+    border-color: transparent;
+    transform: scale(1.03);
+    box-shadow: 0 24px 64px rgba(13,27,42,0.2);
+  }
+
+  .popular-badge {
+    position: absolute; top: -0.75rem; left: 50%; transform: translateX(-50%);
+    background: var(--gold); color: var(--navy);
+    font-size: 0.7rem; font-weight: 700;
+    padding: 0.3rem 1rem; border-radius: 2rem;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .price-title { font-family: 'Libre Baskerville', serif; font-size: 1.2rem; margin-bottom: 0.3rem; color: var(--navy); }
+  .price-card.featured .price-title { color: var(--cream); }
+  .price-desc { font-size: 0.82rem; color: var(--muted); margin-bottom: 1.25rem; }
+  .price-card.featured .price-desc { color: rgba(250,250,247,0.55); }
+
+  .price-amount { font-family: 'Libre Baskerville', serif; font-size: 2.6rem; color: var(--navy); line-height: 1; }
+  .price-card.featured .price-amount { color: var(--gold-light); }
+  .price-amount sup { font-size: 1rem; vertical-align: top; margin-top: 0.4rem; display: inline-block; }
+  .price-period { font-size: 0.78rem; color: var(--muted); margin-bottom: 2rem; }
+  .price-card.featured .price-period { color: rgba(250,250,247,0.5); }
+
+  .price-divider { border: none; border-top: 1px solid var(--border); margin-bottom: 1.5rem; }
+  .price-card.featured .price-divider { border-color: rgba(250,250,247,0.1); }
+
+  .price-feature {
+    font-size: 0.83rem; color: var(--muted);
+    margin-bottom: 0.6rem; display: flex; align-items: center; gap: 0.6rem;
+  }
+  .price-card.featured .price-feature { color: rgba(250,250,247,0.6); }
+  .price-feature::before { content: '✓'; color: var(--gold); font-weight: 700; flex-shrink: 0; }
+
+  .price-btn {
+    width: 100%; padding: 0.85rem; margin-top: 1.5rem;
+    border-radius: 2rem; font-family: 'Outfit', sans-serif;
+    font-size: 0.88rem; font-weight: 600; cursor: pointer;
+    transition: all 0.25s; border: 1.5px solid var(--navy);
+    background: transparent; color: var(--navy);
+  }
+  .price-btn:hover { background: var(--navy); color: var(--cream); }
+  .price-card.featured .price-btn { background: var(--gold); border-color: var(--gold); color: var(--navy); }
+  .price-card.featured .price-btn:hover { background: var(--gold-light); }
+
+  /* CTA */
+  .cta {
+    padding: 6rem 4rem; background: var(--navy-mid);
+    text-align: center;
+    background-image: linear-gradient(rgba(201,150,58,0.04) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(201,150,58,0.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+  .cta h2 { color: var(--cream); margin-bottom: 1rem; }
+  .cta p { color: rgba(250,250,247,0.55); max-width: 480px; margin: 0 auto 2.5rem; font-weight: 300; }
+
+  /* FOOTER */
+  footer {
+    background: var(--navy);
+    padding: 2rem 4rem;
+    display: flex; justify-content: space-between; align-items: center;
+    border-top: 1px solid rgba(201,150,58,0.15);
+    font-size: 0.8rem; color: rgba(250,250,247,0.4);
+  }
+
+  /* CHAT */
+  #chat-btn {
+    position: fixed; bottom: 2rem; right: 2rem;
+    width: 60px; height: 60px;
+    background: var(--gold);
+    border-radius: 50%; border: none;
+    cursor: pointer; z-index: 1000;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 8px 32px rgba(201,150,58,0.4);
+    transition: all 0.3s;
+    font-size: 1.5rem;
+  }
+  #chat-btn:hover { transform: scale(1.1); background: var(--gold-light); }
+
+  #chat-window {
+    position: fixed; bottom: 5.5rem; right: 2rem;
+    width: 370px; max-height: 540px;
+    background: var(--white);
+    border-radius: 1.5rem;
+    box-shadow: 0 24px 80px rgba(13,27,42,0.2);
+    z-index: 999;
+    display: flex; flex-direction: column;
+    overflow: hidden;
+    transform: scale(0.9) translateY(20px);
+    opacity: 0; pointer-events: none;
+    transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+    border: 1px solid var(--border);
+  }
+  #chat-window.open { transform: scale(1) translateY(0); opacity: 1; pointer-events: all; }
+
+  .chat-head {
+    background: var(--navy);
+    padding: 1.1rem 1.4rem;
+    display: flex; align-items: center; gap: 0.75rem;
+  }
+
+  .chat-avatar {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: var(--gold);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem; flex-shrink: 0;
+    font-family: 'Libre Baskerville', serif;
+    color: var(--navy); font-weight: 700;
+  }
+
+  .chat-head-info { flex: 1; }
+  .chat-head-name { font-size: 0.88rem; font-weight: 600; color: var(--cream); }
+  .chat-head-status { font-size: 0.72rem; color: rgba(250,250,247,0.55); display: flex; align-items: center; gap: 0.3rem; }
+  .status-dot { width: 6px; height: 6px; background: #4ade80; border-radius: 50%; }
+
+  .chat-msgs {
+    flex: 1; overflow-y: auto;
+    padding: 1.25rem; display: flex; flex-direction: column; gap: 0.75rem;
+    min-height: 300px; max-height: 360px;
+    background: #F8F8F5;
+  }
+
+  .msg {
+    max-width: 84%; padding: 0.75rem 1rem;
+    border-radius: 1rem; font-size: 0.84rem; line-height: 1.55;
+    animation: msgIn 0.25s ease;
+  }
+
+  @keyframes msgIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .msg.bot {
+    background: var(--white); color: var(--navy);
+    border-bottom-left-radius: 0.25rem;
+    align-self: flex-start;
+    border: 1px solid rgba(13,27,42,0.07);
+    box-shadow: 0 2px 8px rgba(13,27,42,0.05);
+  }
+  .msg.user {
+    background: var(--navy); color: var(--cream);
+    border-bottom-right-radius: 0.25rem;
+    align-self: flex-end;
+  }
+  .msg.typing { background: var(--white); align-self: flex-start; padding: 0.9rem 1rem; border: 1px solid rgba(13,27,42,0.07); }
+
+  .dots { display: flex; gap: 4px; align-items: center; }
+  .dots span {
+    width: 6px; height: 6px; background: var(--muted);
+    border-radius: 50%; animation: dot 1.2s infinite;
+  }
+  .dots span:nth-child(2) { animation-delay: 0.2s; }
+  .dots span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes dot {
+    0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+    30% { transform: translateY(-4px); opacity: 1; }
+  }
+
+  .chat-suggestions {
+    padding: 0.75rem 1.25rem;
+    display: flex; gap: 0.5rem; flex-wrap: wrap;
+    background: #F8F8F5;
+    border-top: 1px solid rgba(13,27,42,0.06);
+  }
+
+  .suggestion {
+    background: var(--white); border: 1px solid var(--border);
+    color: var(--navy); font-size: 0.75rem; font-weight: 500;
+    padding: 0.35rem 0.85rem; border-radius: 1rem;
+    cursor: pointer; transition: all 0.2s;
+    font-family: 'Outfit', sans-serif;
+  }
+  .suggestion:hover { background: var(--gold-pale); border-color: var(--gold); }
+
+  .chat-input-area {
+    padding: 0.85rem 1rem;
+    border-top: 1px solid rgba(13,27,42,0.08);
+    display: flex; gap: 0.6rem; align-items: center;
+    background: var(--white);
+  }
+
+  #chat-input {
+    flex: 1; border: 1.5px solid rgba(13,27,42,0.12);
+    border-radius: 2rem; padding: 0.6rem 1rem;
+    font-family: 'Outfit', sans-serif; font-size: 0.84rem;
+    color: var(--navy); background: var(--cream); outline: none;
+    transition: border-color 0.2s;
+  }
+  #chat-input:focus { border-color: var(--gold); }
+
+  #chat-send {
+    width: 36px; height: 36px; background: var(--navy);
+    border: none; border-radius: 50%; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--cream); font-size: 0.85rem; transition: background 0.2s;
+    flex-shrink: 0;
+  }
+  #chat-send:hover { background: var(--gold); color: var(--navy); }
+
+  .fade-up { opacity: 0; transform: translateY(20px); transition: all 0.6s ease; }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    nav ul { display: none; }
+    .hero { padding: 7rem 1.5rem 3rem; }
+    .hero-langs { display: none; }
+    .stats { grid-template-columns: repeat(2,1fr); padding: 2rem 1.5rem; }
+    .languages, .courses, .pricing, .cta { padding: 4rem 1.5rem; }
+    .lang-grid { grid-template-columns: repeat(2,1fr); }
+    .course-grid { grid-template-columns: 1fr; }
+    .pricing-grid { grid-template-columns: 1fr; }
+    .price-card.featured { transform: none; }
+    footer { flex-direction: column; gap: 0.75rem; text-align: center; padding: 2rem 1.5rem; }
+    #chat-window { width: calc(100vw - 2rem); right: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo"><div class="logo-dot"></div>Tallinna Keeltekool</div>
+  <ul>
+    <li><a href="#languages">Keeled</a></li>
+    <li><a href="#courses">Kursused</a></li>
+    <li><a href="#pricing">Hinnad</a></li>
+    <li><a href="#contact">Kontakt</a></li>
+  </ul>
+  <a href="#courses" class="nav-btn">Registreeru</a>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <div class="hero-tag">✦ Tallinna Keeltekool alates 1991</div>
+    <h1>Avasta maailm <em>uue keelega</em></h1>
+    <p>Pakume professionaalset keeleõpet 13 keeles — nii rühmades kui individuaalselt. Kohapeal ja online. Tasemed A1–C2.</p>
+    <div class="hero-btns">
+      <a href="#courses" class="btn-gold">Vaata kursuseid</a>
+      <a href="#contact" class="btn-outline">Võta ühendust</a>
+    </div>
+  </div>
+  <div class="hero-langs">
+    <div class="lang-pill active">🇬🇧 Inglise</div>
+    <div class="lang-pill">🇪🇪 Eesti</div>
+    <div class="lang-pill">🇩🇪 Saksa</div>
+    <div class="lang-pill">🇫🇷 Prantsuse</div>
+    <div class="lang-pill">🇪🇸 Hispaania</div>
+    <div class="lang-pill">🇫🇮 Soome</div>
+    <div class="lang-pill">🇮🇹 Itaalia</div>
+    <div class="lang-pill">+ veel 6</div>
+  </div>
+</section>
+
+<div class="stats">
+  <div class="stat"><div class="stat-num">10+</div><div class="stat-label">Keelt</div></div>
+  <div class="stat"><div class="stat-num">20+</div><div class="stat-label">Aastat kogemust</div></div>
+  <div class="stat"><div class="stat-num">A1–C2</div><div class="stat-label">Kõik tasemed</div></div>
+  <div class="stat"><div class="stat-num">Online</div><div class="stat-label">+ kohapealne</div></div>
+</div>
+
+<section class="languages" id="languages">
+  <div class="section-label">Meie keeled</div>
+  <h2>13 keelt, kõik tasemed</h2>
+  <p class="section-sub">Grupikursused, individuaalõpe ja online-tunnid. Leiame iga õppija jaoks sobiva lahenduse.</p>
+  <div class="lang-grid">
+    <div class="lang-card fade-up"><div class="lang-flag">🇬🇧</div><div class="lang-name">Inglise keel</div><div class="lang-levels">A1 – C2 • Grupp & individuaal</div></div>
+    <div class="lang-card fade-up"><div class="lang-flag">🇩🇪</div><div class="lang-name">Saksa keel</div><div class="lang-levels">A1 – B1 • Online & kohapealne</div></div>
+    <div class="lang-card fade-up"><div class="lang-flag">🇫🇷</div><div class="lang-name">Prantsuse keel</div><div class="lang-levels">A1 – B2 • Grupp & individuaal</div></div>
+    <div class="lang-card fade-up"><div class="lang-flag">🇪🇸</div><div class="lang-name">Hispaania keel</div><div class="lang-levels">A1 – B2 • Grupp & individuaal</div></div>
+    <div class="lang-card fade-up"><div class="lang-flag">🇫🇮</div><div class="lang-name">Soome keel</div><div class="lang-levels">A1 – B2 • Online & kohapealne</div></div>
+    <div class="lang-card fade-up"><div class="lang-flag">🇮🇹</div><div class="lang-name">Itaalia keel</div><div class="lang-levels">A1 – B1 • Grupp & individuaal</div></div>
+    <div class="lang-card fade-up"><div class="lang-flag">🇵🇹</div><div class="lang-name">Portugali keel</div><div class="lang-levels">A1 – B1 • Grupp & individuaal</div></div>
+    <div class="lang-card fade-up"><div class="lang-flag">🇯🇵</div><div class="lang-name">Jaapani keel</div><div class="lang-levels">A1 – A2 • Grupp & individuaal</div></div>
+  </div>
+</section>
+
+<section class="courses" id="courses">
+  <div class="section-label" style="color:var(--gold)">Aktuaalsed kursused</div>
+  <h2 style="color:var(--cream)">Populaarsed kursused</h2>
+  <p class="section-sub">Valik hetkel toimuvatest kursustest. Kõik kursused leiab meie kodulehelt.</p>
+  <div class="course-tabs">
+    <div class="tab active">Kõik</div>
+    <div class="tab">Inglise keel</div>
+    <div class="tab">Hispaania keel</div>
+    <div class="tab">Suvekursused</div>
+  </div>
+  <div class="course-grid">
+    <div class="course-card">
+      <div class="course-level">A1 • Inglise</div>
+      <div class="course-title">Inglise keel A1.1 — Suvekursus</div>
+      <div class="course-meta">E+K 16:00–17:30 • 08.06–31.08.2026</div>
+      <div class="course-meta">40 akadeemilist tundi</div>
+      <div class="course-price">540 €</div>
+    </div>
+    <div class="course-card">
+      <div class="course-level">B1 • Inglise</div>
+      <div class="course-title">Inglise keel B1.1 — Online</div>
+      <div class="course-meta">E 17:15–19:30 • 16.03–22.06.2026</div>
+      <div class="course-meta">45 akadeemilist tundi</div>
+      <div class="course-price">578 €</div>
+    </div>
+    <div class="course-card">
+      <div class="course-level">B2 • Inglise</div>
+      <div class="course-title">Inglise keel B2 — Vestluskursus</div>
+      <div class="course-meta">T+N 17:00–18:30 • 09.06–18.08.2026</div>
+      <div class="course-meta">40 akadeemilist tundi</div>
+      <div class="course-price">540 €</div>
+    </div>
+    <div class="course-card">
+      <div class="course-level">A1 • Hispaania</div>
+      <div class="course-title">Hispaania keel B1.1 — Kiirkursus</div>
+      <div class="course-meta">N 17:15–18:45 • 01.06–22.07.2026</div>
+      <div class="course-meta">60 akadeemilist tundi</div>
+      <div class="course-price">771 €</div>
+    </div>
+    <div class="course-card">
+      <div class="course-level">C1 • Inglise</div>
+      <div class="course-title">Inglise keel C1.1 — Kiirkursus</div>
+      <div class="course-meta">E+K 16:30–18:00 • 01.06–22.07.2026</div>
+      <div class="course-meta">30 akadeemilist tundi</div>
+      <div class="course-price">405 €</div>
+    </div>
+    <div class="course-card">
+      <div class="course-level">A1 • Prantsuse</div>
+      <div class="course-title">Prantsuse keel A2.1 — Kiirkursus</div>
+      <div class="course-meta">R 15:30–17:00 • 19.09.2025–12.06.2026</div>
+      <div class="course-meta">70 akadeemilist tundi</div>
+      <div class="course-price">899 €</div>
+    </div>
+  </div>
+</section>
+
+<section class="pricing" id="pricing">
+  <div class="section-label">Individuaalõpe</div>
+  <h2>Lihtne hinnastus</h2>
+  <p class="section-sub">Grupikursused alates 405€. Individuaalõpe saadaval kõigis keeltes jooksvalt.</p>
+  <div class="pricing-grid">
+    <div class="price-card fade-up">
+      <div class="price-title">Grupiõpe</div>
+      <div class="price-desc">Regulaarsed kursused koos teiste õppijatega</div>
+      <div class="price-amount"><sup>al. </sup>405</div>
+      <div class="price-period">€ kursuse eest</div>
+      <hr class="price-divider">
+      <div class="price-feature">Struktureeritud õppekava</div>
+      <div class="price-feature">Kogenud õpetajad</div>
+      <div class="price-feature">Tasemetõend lõpus</div>
+      <div class="price-feature">Paindlikud ajad</div>
+      <button class="price-btn">Registreeru</button>
+    </div>
+    <div class="price-card featured fade-up">
+      <div class="popular-badge">Populaarseim</div>
+      <div class="price-title">Individuaalõpe</div>
+      <div class="price-desc">Isiklik lähenemine, sinu tempo</div>
+      <div class="price-amount"><sup>al. </sup>35</div>
+      <div class="price-period">€ akadeemilise tunni eest</div>
+      <hr class="price-divider">
+      <div class="price-feature">Kõik keeled ja tasemed</div>
+      <div class="price-feature">Minimaalselt 10 tundi</div>
+      <div class="price-feature">Sobiv aeg kokkuleppel</div>
+      <div class="price-feature">Kiire progress</div>
+      <div class="price-feature">Online võimalus</div>
+      <button class="price-btn">Küsi pakkumist</button>
+    </div>
+    <div class="price-card fade-up">
+      <div class="price-title">Tasemetest</div>
+      <div class="price-desc">Sertifitseeritud keeleoskuse hindamine</div>
+      <div class="price-amount"><sup></sup>120</div>
+      <div class="price-period">€ testi eest</div>
+      <hr class="price-divider">
+      <div class="price-feature">Tasemed A1 – C2</div>
+      <div class="price-feature">Inglise, eesti jt keeled</div>
+      <div class="price-feature">Ametlik tasemetõend</div>
+      <div class="price-feature">Jooksvalt saadaval</div>
+      <button class="price-btn">Registreeru testile</button>
+    </div>
+  </div>
+</section>
+
+<section class="cta" id="contact">
+  <div class="section-label" style="color:var(--gold)">Alusta täna</div>
+  <h2>Valmis uue keele õppimiseks?</h2>
+  <p>Küsi infot, registreeru kursusele või tule tasuta konsultatsioonile. Vastame kiiresti!</p>
+  <a href="mailto:info@tallinnakeeltekool.ee" class="btn-gold">Saada e-kiri</a>
+  <p style="margin-top:1.5rem; font-size:0.82rem; color:rgba(250,250,247,0.4)">📍 Endla 4, Tallinn &nbsp;|&nbsp; 📞 633-63-63 &nbsp;|&nbsp; ⏰ E–R 9–20</p>
+</section>
+
+<footer>
+  <div style="font-family:'Libre Baskerville',serif; color:rgba(250,250,247,0.5)">Tallinna Keeltekool</div>
+  <div>© 2026 Tallinna Keeltekool. Kõik õigused kaitstud.</div>
+  <div>City Centre</div>
+</footer>
+
+<button id="chat-btn" title="Küsi küsimusi">💬</button>
+
+<div id="chat-window">
+  <div class="chat-head">
+    <div class="chat-avatar">TK</div>
+    <div class="chat-head-info">
+      <div class="chat-head-name">Tallinna Keeltekool — Assistent</div>
+      <div class="chat-head-status"><span class="status-dot"></span>Vastab kohe</div>
+    </div>
+  </div>
+  <div class="chat-msgs" id="chat-msgs">
+    <div class="msg bot">Tere! 👋 Olen Tallinna Keeltekooli assistent. Saan vastata küsimustele kursuste, hindade, registreerumise ja lahtiolekuaegade kohta. Kuidas saan aidata?</div>
+  </div>
+  <div class="chat-suggestions" id="suggestions">
+    <div class="suggestion" onclick="ask(this.textContent)">Millised inglise kursused on?</div>
+    <div class="suggestion" onclick="ask(this.textContent)">Mis maksab individuaalõpe?</div>
+    <div class="suggestion" onclick="ask(this.textContent)">Kuidas registreeruda?</div>
+    <div class="suggestion" onclick="ask(this.textContent)">Millal on soome keele kursus?</div>
+  </div>
+  <div class="chat-input-area">
+    <input id="chat-input" type="text" placeholder="Kirjuta siia..." maxlength="200">
+    <button id="chat-send">➤</button>
+  </div>
+</div>
+
+<script>
+  const btn = document.getElementById('chat-btn');
+  const win = document.getElementById('chat-window');
+  let open = false;
+
+  btn.addEventListener('click', () => {
+    open = !open;
+    win.classList.toggle('open', open);
+    btn.textContent = open ? '✕' : '💬';
+  });
+
+  const observer = new IntersectionObserver(e => e.forEach(x => { if(x.isIntersecting) x.target.classList.add('visible'); }), { threshold: 0.1 });
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  const msgs = document.getElementById('chat-msgs');
+  const input = document.getElementById('chat-input');
+  const history = [];
+
+  const SYSTEM = `Sa oled Tallinna Keeltekooli veebilehe assistent. Vasta ALATI eesti keeles, lühidalt ja sõbralikult. Ära vasta kunagi inglise keeles.
+
+TALLINNA KEELTEKOOL — põhiinfo:
+- Aadress: Endla 4, Tallinn
+- Telefon: 633-63-63
+- Email: info@tallinnakeeltekool.ee
+- Lahtiolekuaeg: esmaspäevast reedeni 9–20
+- Registreerimine: meili teel info@tallinnakeeltekool.ee või telefoni teel
+
+KEELED: Inglise, Eesti, Saksa, Prantsuse, Hispaania, Itaalia, Portugali, Soome, Rootsi, Vene, Jaapani, Türgi, Individuaalõpe erinevates keeltes
+
+KURSUSED (näited):
+INGLISE KEEL:
+- A1.1 suvekursus: E+K 16:00-17:30, 08.06-31.08.2026, 40h, 540€
+- A2.1 suvekursus: T+N 15:30-17:00, 02.06-27.08.2026, 42h, 567€
+- B1.1 ONLINE: E 17:15-19:30, 16.03-22.06.2026, 45h, 578€
+- B1.1 kohapealne: K 16:45-18:15, 17.09.2025-27.05.2026, 70h, 899€
+- B2 vestluskursus suvekursus: T+N 17:00-18:30, 09.06-18.08.2026, 40h, 540€
+- C1.1 kiirkursus: E+K 16:30-18:00, 01.06-22.07.2026, 30h, 405€
+- C1.1 ONLINE: K 17:30-19:45, 08.10.2025-17.06.2026, 105h, 1349€
+- Tasemetest A1-C2: jooksvalt, 120€
+
+EESTI KEEL (venekeelsetele):
+- A2 eksamiks ettevalmistav: E+N 17:15-19:30, 12.01-28.05.2026, 120h, 1440€
+- B1 eksamiks ettevalmistav: T+N 17:30-19:45, 17.03-10.09.2026, 150h, 1800€
+- B2 eksamiks ettevalmistav: E+K 17:15-19:30, 06.10.2025-17.06.2026, 210h, 2499€
+- Individuaalõpe: jooksvalt, 35€/ak.t (min 10 tundi)
+- Tasemetest: kokkuleppel, 120€
+
+HISPAANIA KEEL:
+- A1.1: N 17:15-18:45, 15.01-28.05.2026, 60h, 771€
+- B1.1 kiirkursus: E+K 18:15-19:45, 01.06-22.07.2026, 30h, 405€
+
+PRANTSUSE KEEL:
+- A1.1: R 15:30-17:00, 19.09.2025-12.06.2026, 70h, 899€
+- A2.1 kiirkursus prantsuse keeles: T+N 16:30-18:00, 02.06-23.07.2026, 30h, 405€
+
+SOOME KEEL:
+- A1.1: E 17:15-19:30, 05.01-08.06.2026, 70h, 899€
+- A1.1 ONLINE: T 17:45-20:00, 18.11.2025-28.04.2026, 63h, 810€
+
+SAKSA KEEL:
+- A1.1: E 17:15-19:30, 23.03-08.06.2026, 36h, 463€
+- B1 ONLINE: K 17:00-19:15, 17.09.2025-27.05.2026, 105h, 1349€
+
+ITAALIA KEEL:
+- A1.1: N 17:15-18:45, 08.01-18.06.2026, 44h, 565€
+- B1.1 kiirkursus: T+N 16:30-18:00, 02.06-23.07.2026, 30h, 405€
+
+INDIVIDUAALÕPE (kõik keeled): alates 35€/ak.t, minimaalselt 10 tundi, jooksvalt
+
+TASEMETESTID: 120€, jooksvalt (inglise, eesti, hispaania jt)
+
+Kui küsitakse keele kohta mida pole loetletud, ütle et palun võtke ühendust meiliteel info@tallinnakeeltekool.ee.
+Ära loe üles kõiki kursuseid korraga — vasta täpselt küsitud keele/taseme kohta.`;
+
+  function addMsg(text, type) {
+    const el = document.createElement('div');
+    el.className = 'msg ' + type;
+    el.textContent = text;
+    msgs.appendChild(el);
+    msgs.scrollTop = msgs.scrollHeight;
+    return el;
+  }
+
+  function showTyping() {
+    const el = document.createElement('div');
+    el.className = 'msg typing';
+    el.innerHTML = '<div class="dots"><span></span><span></span><span></span></div>';
+    msgs.appendChild(el);
+    msgs.scrollTop = msgs.scrollHeight;
+    return el;
+  }
+
+  async function ask(text) {
+    if (!text.trim()) return;
+    input.value = '';
+    document.getElementById('suggestions').style.display = 'none';
+    addMsg(text, 'user');
+    history.push({ role: 'user', content: text });
+    const t = showTyping();
+    try {
+      const res = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: 400,
+          system: SYSTEM,
+          messages: history
+        })
+      });
+      const data = await res.json();
+      const reply = data.content?.[0]?.text || 'Vabandust, tekkis viga. Palun võtke ühendust: info@tallinnakeeltekool.ee';
+      t.remove();
+      history.push({ role: 'assistant', content: reply });
+      addMsg(reply, 'bot');
+    } catch(e) {
+      t.remove();
+      addMsg('Vabandust, tekkis viga. Palun võtke ühendust: info@tallinnakeeltekool.ee', 'bot');
+    }
+  }
+
+  document.getElementById('chat-send').addEventListener('click', () => ask(input.value));
+  input.addEventListener('keydown', e => { if(e.key === 'Enter') ask(input.value); });
+</script>
+</body>
+</html>
